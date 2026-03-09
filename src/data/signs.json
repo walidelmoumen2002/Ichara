@@ -1,0 +1,110 @@
+[
+  {
+    "id": "sign-001",
+    "word": "Hello",
+    "wordAr": "مرحباً",
+    "wordFr": "Bonjour",
+    "category": "greetings",
+    "difficulty": "beginner",
+    "difficultyStars": 1,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuDKoY0pGTm2Qq1Dfgpm9LAgGE2BEklhDh64BeD93UjWOBTgYDaoe1VSAFEtybrr_SJ5ZGlUcGWtp7aKbJr8RC6HrTlwCXNPVt8G5kblKGoYmHmQopFLxOn_MZjm8X1C2k1eug-cQOlDmUWaA8HbfIN91n3Ow_blf1ErvMvc7viAOsELqpfOWvbc61qZBc8zmUstRTtCRyLhFxBiYZEgRMrw6Ce31jru0QFrlu5V5bU04xcE5H2l8PeI-Po288YDjgcaCMS5eshpoKOn",
+    "videoUrl": "#",
+    "videoDuration": "0:05"
+  },
+  {
+    "id": "sign-002",
+    "word": "Thank You",
+    "wordAr": "شكراً",
+    "wordFr": "Merci",
+    "category": "greetings",
+    "difficulty": "beginner",
+    "difficultyStars": 1,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuDEd6egVX05-0rEG4C416dvu7qainHKR9goCO8So-ctZuokeGyRBYR5GalHsJ4FpYaa9vhs_27E-iTR4r_WxoUWk-dMgIGwv61S78sUpie6nW8_p_umC4vcakZG6Oe3E0-FbS_OlF6q0zu8Lf5cp6OGPYdZx-lKczeHGl8T3oyb_6OyBxlPnurNnbgANylLgbXRsW3k75Uvr76XDfScYzG1A5nf4P2X5_2VFOF_JakD4eP1st5Pp0Fbby1LV97GHK19nChEFwX5v8NJ",
+    "videoUrl": "#",
+    "videoDuration": "0:03"
+  },
+  {
+    "id": "sign-003",
+    "word": "Family",
+    "wordAr": "عائلة",
+    "wordFr": "Famille",
+    "category": "family",
+    "difficulty": "intermediate",
+    "difficultyStars": 2,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuDdWal-FUto8Gs5pijOGLZHcmdrXaVxiYnDXAduyBdGj1I4CKKQOq7aZ9oPiuboEVypqPloLK4_WAmHxwwsDoZPiF3mEW1Kd-FGhC0zXEcypWuVTq9XI2xsTVHqkSeYALkRZeBm_ef7UOG1Si5LMK1YAiqh4PTTo9PEjD0zCcb8Zc89ZxuSqEeP3oVWImSZWRkYzo0CQeDqJUUnhXgz8gBpSakcqJjbwrvAsmDVQHfLGavF91FmgXEHH6Dt0L1S7M3HzSLYRU4VQFqj",
+    "videoUrl": "#",
+    "videoDuration": "0:08"
+  },
+  {
+    "id": "sign-004",
+    "word": "Friend",
+    "wordAr": "صديق",
+    "wordFr": "Ami",
+    "category": "family",
+    "difficulty": "beginner",
+    "difficultyStars": 1,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuDhcHgmlSbWR2Xm-i4N5mDDDzKb51ITVI4EZvjDlLrQ5XX6Vu5wnoGTWQ5puDEaJVS_7ssYVA2H9QzqzA2_7wpXenPpqlVRsIZx_ZvRHdQuTHIVoMXjU7vZQcB5t3LAvTDk8q1_ISIkycc_V6DZgL1y7nIctSyQHjzfWBIeXmMOM7zxIllfGq4P4CzgACLRXVOMohoCMWOePGC4Yi4WSsdn9Wzj6j-U9jVRYlCHhQ0XtIO7ZE1ZqkjR4BmtapStUejwrz3wHjSkBXUa",
+    "videoUrl": "#",
+    "videoDuration": "0:06"
+  },
+  {
+    "id": "sign-005",
+    "word": "Five",
+    "wordAr": "خمسة",
+    "wordFr": "Cinq",
+    "category": "numbers",
+    "difficulty": "beginner",
+    "difficultyStars": 1,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuBzkw_H88orzeygHB8f479ayQp1qS5Pb1DgIOJCsB99RboD_T9uobcshiTa_JDcaYUBXXcVXjeLxKkLhJwQTYiC_gHlJ_N6vQMA3lq5iOqskwHtzvLUuDmfjbbZrTPL1Oe9QZOaSr_IaKXcKq7_aT8Dr7HEXeA6n1yrhZ8csPd3-2LIK4ykmCINAp4ijn860EId9ptq7nKGAqr0CQlTi1t1APKGKiIeCjA1233CQN-hYIejIcrb5HUI7eGiFrceY8FgSeGxIx8GuPHH",
+    "videoUrl": "#",
+    "videoDuration": "0:04"
+  },
+  {
+    "id": "sign-006",
+    "word": "Play",
+    "wordAr": "لعب",
+    "wordFr": "Jouer",
+    "category": "verbs",
+    "difficulty": "intermediate",
+    "difficultyStars": 2,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuAhrwkwfJAS5azo1fjeNRxCOON3_LAvnUsGz4_7wYr1wBoa3O70G3Z3pgUu-rPrgbV2jcYv0k3Ps6yoSqejf3Tw7TaaVuqU65O2_6W9gWJU3m79Fpb0xzz4ssIRxn0OvvoxcLx4c9QVh59a499LCHLogJOLVtw-LY4IFUsQNCgO9cCawCHp1ZnZN5gVAwj9rR6UTUAtYu6LuzlchmawIUox8dvFwcZu1y_EdpORbK6RLXm8fUntGNwH2QxTM_QVmxeU8lwqVscKnVO6",
+    "videoUrl": "#",
+    "videoDuration": "0:05"
+  },
+  {
+    "id": "sign-007",
+    "word": "Friends",
+    "wordAr": "أصدقاء",
+    "wordFr": "Amis",
+    "category": "family",
+    "difficulty": "advanced",
+    "difficultyStars": 3,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuDKEAJBjlshHokQ2bH1JjseUvL9KskpZADofjwO8H6j6AAILywFM1Kx5JqTqoIxaP4aT-b6Zc2rHckxPOdKAVCk7zoPpbMlAxs030ntuM7RS01d4rbEIlc32B2yhXInqffwYjd_FqkotRpwjC1m9KTSyFdh825LjkP3seTo-iZu1B3Dvwu_sdzf5GOEzjNa3NitGP1hg5S91O5SygyruIKM3FPvEeRm9eu13dQNMlh9G4xgD5ifT24njC186rM8S38TuOvk8WrsXrn7",
+    "videoUrl": "#",
+    "videoDuration": "0:07"
+  },
+  {
+    "id": "sign-008",
+    "word": "Blue",
+    "wordAr": "أزرق",
+    "wordFr": "Bleu",
+    "category": "colors",
+    "difficulty": "beginner",
+    "difficultyStars": 1,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuAMkEDv5vmu76Gk-haCavQgGprYr-bCRTdzAYnd4Vstw3F2YmDQ8nOCt0tzSRiDvQ3RP0g8b7V1lWtbIkMMD49iEO-fmj2gkY8o80RYDNnmlZoPLimH2bY8Ywm9OCoZUuyQymhgn_x7zxZbN-Oe19EqOUivvn2U8vN6AbZSfC_KxuUd-S6LwJfDed2ECur6D5eLO_VLh-ecOGijzDRBlbNp4HyLW1S6oxXhYr6-MyJzKFrTrBIkGxzmcJq1Oe4yllMhH6uFqPBJZo9L",
+    "videoUrl": "#",
+    "videoDuration": "0:03"
+  },
+  {
+    "id": "sign-009",
+    "word": "Work",
+    "wordAr": "عمل",
+    "wordFr": "Travail",
+    "category": "verbs",
+    "difficulty": "intermediate",
+    "difficultyStars": 2,
+    "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuC-VIa9ui1r9SiozO5H-zn6efm-ONHoNYo1_RjZwGPgb901OkgizInT27gJn98lBC28AFfssIapKFf8vrrEGoQjlXA_xGoswG4cSx0tdCavvSMdKVQ7tYBVfU4vojj6pQn3cKELpOEYSH4A_zIlkg4YNEOjo0jZKnQm56-b2je6mXaWXXIgKSQW9QJlLbalSp0bqKONEaSh55vtrXsynnI7r8ikdSmpdRqokza7kNPFaOm_UQTovUmfJHW_7x21lBGYn4MucbJ_Cc4q",
+    "videoUrl": "#",
+    "videoDuration": "0:06"
+  }
+]

@@ -1,0 +1,109 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+model Category {
+  id      String @id
+  labelEn String
+  labelAr String
+  signs   Sign[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sign {
+  id              String     @id @default(cuid())
+  word            String
+  wordAr          String
+  wordFr          String
+  categoryId      String
+  category        Category   @relation(fields: [categoryId], references: [id])
+  difficulty      Difficulty
+  difficultyStars Int
+  thumbnail       String
+  videoUrl        String
+  videoDuration   String
+
+  learnedBy LearnedSign[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+enum Difficulty {
+  beginner
+  intermediate
+  advanced
+}
+
+enum Role {
+  user
+  admin
+}
+
+model User {
+  id             String        @id @default(cuid())
+  name           String
+  email          String        @unique
+  hashedPassword String
+  role           Role          @default(user)
+
+  progress     UserProgress?
+  learnedSigns LearnedSign[]
+  activities   Activity[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserProgress {
+  id             String @id @default(cuid())
+  userId         String @unique
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastActiveDate String @default("")
+  currentStreak  Int    @default(0)
+  bestStreak     Int    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LearnedSign {
+  id        String   @id @default(cuid())
+  userId    String
+  signId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sign      Sign     @relation(fields: [signId], references: [id], onDelete: Cascade)
+  learnedAt DateTime @default(now())
+
+  @@unique([userId, signId])
+  @@index([userId])
+}
+
+model Activity {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       ActivityType
+  signId     String?
+  signWord   String?
+  signWordAr String?
+  milestone  Int?
+  timestamp  DateTime     @default(now())
+
+  @@index([userId])
+  @@index([userId, timestamp])
+}
+
+enum ActivityType {
+  learned_sign
+  streak_milestone
+}

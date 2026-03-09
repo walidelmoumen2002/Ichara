@@ -1,0 +1,8 @@
+[
+  { "id": "all", "labelEn": "All", "labelAr": "الكل" },
+  { "id": "greetings", "labelEn": "Greetings", "labelAr": "تحيات" },
+  { "id": "numbers", "labelEn": "Numbers", "labelAr": "أرقام" },
+  { "id": "verbs", "labelEn": "Verbs", "labelAr": "أفعال" },
+  { "id": "family", "labelEn": "Family", "labelAr": "عائلة" },
+  { "id": "colors", "labelEn": "Colors", "labelAr": "ألوان" }
+]
