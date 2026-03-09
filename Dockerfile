@@ -13,7 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Dummy DATABASE_URL for prisma generate (doesn't connect, just needs the var)
 ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
-RUN npx prisma generate && npm run build
+RUN mkdir -p public && npx prisma generate && npm run build
 
 # Production runner
 FROM base AS runner
