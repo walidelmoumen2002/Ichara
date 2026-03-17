@@ -1,8 +1,10 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { signupAction } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,18 +22,42 @@ import { MaterialIcon } from "@/components/shared/material-icon";
 export function SignupForm() {
   const t = useTranslations("Auth");
   const router = useRouter();
-  const [state, formAction, isPending] = useActionState(
-    async (_prevState: { error?: string; success?: boolean } | undefined, formData: FormData) => {
-      const result = await signupAction(formData);
-      if (result?.success) {
-        router.push("/dashboard");
-        router.refresh();
-        return undefined;
-      }
-      return result;
-    },
-    undefined
-  );
+  const [error, setError] = useState<string>();
+  const [isPending, setIsPending] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(undefined);
+    setIsPending(true);
+
+    const formData = new FormData(e.currentTarget);
+    const result = await signupAction(formData);
+
+    if (result?.error) {
+      setError(result.error);
+      setIsPending(false);
+      return;
+    }
+
+    // Account created, now sign in client-side to set the session cookie
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const signInResult = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (signInResult?.error) {
+      setError("errorAccountCreatedLoginFailed");
+      setIsPending(false);
+      return;
+    }
+
+    router.push("/dashboard");
+    router.refresh();
+  }
 
   return (
     <Card className="w-full max-w-md">
@@ -43,10 +69,10 @@ export function SignupForm() {
         <CardDescription>{t("signupDescription")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form action={formAction} className="space-y-4">
-          {state?.error && (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
             <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-              {t(state.error)}
+              {t(error)}
             </div>
           )}
           <div className="space-y-2">

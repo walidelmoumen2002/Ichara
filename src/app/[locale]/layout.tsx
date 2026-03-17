@@ -7,6 +7,7 @@ import { plusJakartaSans, notoSansArabic } from "@/lib/fonts";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { AuthSessionProvider } from "@/components/providers/session-provider";
+import { auth } from "@/lib/auth";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -40,6 +41,7 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const session = await auth();
   const isRtl = locale === "ar";
 
   return (
@@ -48,7 +50,7 @@ export default async function LocaleLayout({
       dir={isRtl ? "rtl" : "ltr"}
       className={`${plusJakartaSans.variable} ${notoSansArabic.variable} ${isRtl ? "font-arabic" : "font-sans"} antialiased flex min-h-screen flex-col`}
     >
-      <AuthSessionProvider>
+      <AuthSessionProvider session={session}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
           <main className="grow flex flex-col">{children}</main>

@@ -1,9 +1,10 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
-import { loginAction } from "@/lib/actions/auth";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,18 +21,33 @@ import { MaterialIcon } from "@/components/shared/material-icon";
 export function LoginForm() {
   const t = useTranslations("Auth");
   const router = useRouter();
-  const [state, formAction, isPending] = useActionState(
-    async (_prevState: { error?: string; success?: boolean } | undefined, formData: FormData) => {
-      const result = await loginAction(formData);
-      if (result?.success) {
-        router.push("/dashboard");
-        router.refresh();
-        return undefined;
-      }
-      return result;
-    },
-    undefined
-  );
+  const [error, setError] = useState<string>();
+  const [isPending, setIsPending] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(undefined);
+    setIsPending(true);
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      setError("errorInvalidCredentials");
+      setIsPending(false);
+      return;
+    }
+
+    router.push("/dashboard");
+    router.refresh();
+  }
 
   return (
     <Card className="w-full max-w-md">
@@ -43,10 +59,10 @@ export function LoginForm() {
         <CardDescription>{t("loginDescription")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form action={formAction} className="space-y-4">
-          {state?.error && (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
             <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-              {t(state.error)}
+              {t(error)}
             </div>
           )}
           <div className="space-y-2">
