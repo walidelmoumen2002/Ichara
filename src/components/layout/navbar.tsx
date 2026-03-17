@@ -18,6 +18,7 @@ export function Navbar() {
     { label: t("home"), href: "/" as const },
     { label: t("dictionary"), href: "/dictionary" as const },
     { label: t("learn"), href: "/lessons" as const },
+    { label: t("practice"), href: "/practice" as const },
     { label: t("about"), href: "/about" as const },
   ];
 
