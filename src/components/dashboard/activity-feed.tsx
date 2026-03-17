@@ -45,12 +45,19 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
 
       <div className="space-y-4">
         {activities.map((activity) => {
-          const icon = activity.type === "learned_sign" ? "sign_language" : "local_fire_department";
+          const icon =
+            activity.type === "learned_sign"
+              ? "sign_language"
+              : activity.type === "quiz_completed"
+                ? "quiz"
+                : "local_fire_department";
           const word = locale === "ar" ? activity.signWordAr : activity.signWord;
           const text =
             activity.type === "learned_sign"
               ? t("activityLearnedSign", { word: word ?? "" })
-              : t("activityStreakMilestone", { count: activity.milestone ?? 0 });
+              : activity.type === "quiz_completed"
+                ? t("activityQuizCompleted", { word: word ?? "" })
+                : t("activityStreakMilestone", { count: activity.milestone ?? 0 });
           const timeAgo = formatTimeAgo(activity.timestamp as unknown as string, t);
 
           return (

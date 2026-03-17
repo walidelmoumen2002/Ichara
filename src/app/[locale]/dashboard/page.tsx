@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/lib/auth";
 import { fetchDashboardData } from "@/lib/actions/progress";
+import { fetchQuizHistory } from "@/lib/actions/quiz";
 import { DashboardStatCards } from "@/components/dashboard/stat-cards";
 import { ProgressOverview } from "@/components/dashboard/progress-overview";
 import { Achievements } from "@/components/dashboard/achievements";
 import { ActivityFeed } from "@/components/dashboard/activity-feed";
+import { QuizHistory } from "@/components/dashboard/quiz-history";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MaterialIcon } from "@/components/shared/material-icon";
 
@@ -25,7 +27,10 @@ export async function generateMetadata({
 export default async function DashboardPage() {
   const session = await auth();
   const t = await getTranslations("Dashboard");
-  const data = await fetchDashboardData();
+  const [data, quizHistory] = await Promise.all([
+    fetchDashboardData(),
+    fetchQuizHistory(),
+  ]);
 
   const initials =
     session?.user?.name
@@ -77,7 +82,8 @@ export default async function DashboardPage() {
           <Achievements achievements={data?.achievements ?? []} />
         </div>
 
-        <div className="mt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          <QuizHistory results={quizHistory} />
           <ActivityFeed activities={data?.recentActivities ?? []} />
         </div>
       </div>

@@ -178,11 +178,20 @@
     "activityTitle": "Recent Activity",
     "activityLearnedSign": "Learned the sign for \"{word}\"",
     "activityStreakMilestone": "{count}-day streak achieved!",
+    "activityQuizCompleted": "Quiz completed with score {word}",
     "noActivity": "No activity yet. Start a lesson to begin!",
     "justNow": "Just now",
     "minutesAgo": "{count}m ago",
     "hoursAgo": "{count}h ago",
-    "daysAgo": "{count}d ago"
+    "daysAgo": "{count}d ago",
+    "quizHistoryTitle": "Quiz History",
+    "noQuizHistory": "No quizzes taken yet. Try the practice quiz!",
+    "quizScore": "{score}%",
+    "quizDetails": "{correct}/{total} correct",
+    "quizRounds": "{count} rounds",
+    "quizTime": "{minutes}m {seconds}s",
+    "quizCategoryAll": "All Categories",
+    "startPractice": "Start Practice"
   },
   "Admin": {
     "sidebarTitle": "Admin Panel",

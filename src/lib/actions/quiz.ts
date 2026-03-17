@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import type { Sign } from "@/types/sign";
 
@@ -50,4 +52,78 @@ export async function fetchQuizSigns(
   }
 
   return signs.slice(0, count);
+}
+
+export interface QuizResultData {
+  category: string | null;
+  totalRounds: number;
+  totalQuestions: number;
+  totalCorrect: number;
+  score: number;
+  timeSpent: number;
+}
+
+export interface QuizResultRow {
+  id: string;
+  category: string | null;
+  totalRounds: number;
+  totalQuestions: number;
+  totalCorrect: number;
+  score: number;
+  timeSpent: number;
+  completedAt: Date;
+}
+
+export async function saveQuizResult(data: QuizResultData) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "unauthorized" };
+
+  await prisma.$transaction(async (tx) => {
+    await tx.quizResult.create({
+      data: {
+        userId: session.user!.id!,
+        category: data.category,
+        totalRounds: data.totalRounds,
+        totalQuestions: data.totalQuestions,
+        totalCorrect: data.totalCorrect,
+        score: data.score,
+        timeSpent: data.timeSpent,
+      },
+    });
+
+    await tx.activity.create({
+      data: {
+        userId: session.user!.id!,
+        type: "quiz_completed",
+        signWord: `${data.score}%`,
+        signWordAr: `${data.score}٪`,
+        milestone: data.totalCorrect,
+      },
+    });
+  });
+
+  revalidatePath("/[locale]/dashboard");
+  return { success: true };
+}
+
+export async function fetchQuizHistory(): Promise<QuizResultRow[]> {
+  const session = await auth();
+  if (!session?.user?.id) return [];
+
+  const rows = await prisma.quizResult.findMany({
+    where: { userId: session.user.id },
+    orderBy: { completedAt: "desc" },
+    take: 10,
+  });
+
+  return rows.map((r) => ({
+    id: r.id,
+    category: r.category,
+    totalRounds: r.totalRounds,
+    totalQuestions: r.totalQuestions,
+    totalCorrect: r.totalCorrect,
+    score: r.score,
+    timeSpent: r.timeSpent,
+    completedAt: r.completedAt,
+  }));
 }

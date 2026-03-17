@@ -3,7 +3,7 @@ import type { Sign } from "@/types/sign";
 
 export interface Activity {
   id: string;
-  type: "learned_sign" | "streak_milestone";
+  type: "learned_sign" | "streak_milestone" | "quiz_completed";
   signId?: string;
   signWord?: string;
   signWordAr?: string;

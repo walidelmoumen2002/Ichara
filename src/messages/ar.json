@@ -178,11 +178,20 @@
     "activityTitle": "النشاط الأخير",
     "activityLearnedSign": "تعلمت إشارة \"{word}\"",
     "activityStreakMilestone": "حققت سلسلة {count} يوم!",
+    "activityQuizCompleted": "اكتمل الاختبار بنتيجة {word}",
     "noActivity": "لا يوجد نشاط بعد. ابدأ درسًا للبدء!",
     "justNow": "الآن",
     "minutesAgo": "منذ {count} دقيقة",
     "hoursAgo": "منذ {count} ساعة",
-    "daysAgo": "منذ {count} يوم"
+    "daysAgo": "منذ {count} يوم",
+    "quizHistoryTitle": "سجل الاختبارات",
+    "noQuizHistory": "لم تجتز أي اختبار بعد. جرب اختبار التمارين!",
+    "quizScore": "{score}٪",
+    "quizDetails": "{correct}/{total} صحيح",
+    "quizRounds": "{count} جولات",
+    "quizTime": "{minutes}د {seconds}ث",
+    "quizCategoryAll": "جميع الفئات",
+    "startPractice": "ابدأ التمارين"
   },
   "Admin": {
     "sidebarTitle": "لوحة الإدارة",

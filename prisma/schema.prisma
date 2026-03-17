@@ -59,6 +59,7 @@ model User {
   progress     UserProgress?
   learnedSigns LearnedSign[]
   activities   Activity[]
+  quizResults  QuizResult[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -106,4 +107,21 @@ model Activity {
 enum ActivityType {
   learned_sign
   streak_milestone
+  quiz_completed
+}
+
+model QuizResult {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category      String?
+  totalRounds   Int
+  totalQuestions Int
+  totalCorrect  Int
+  score         Int
+  timeSpent     Int      @default(0)
+  completedAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, completedAt])
 }

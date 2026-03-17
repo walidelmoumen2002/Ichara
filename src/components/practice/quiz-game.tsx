@@ -18,7 +18,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MaterialIcon } from "@/components/shared/material-icon";
-import { fetchQuizSigns } from "@/lib/actions/quiz";
+import { fetchQuizSigns, saveQuizResult } from "@/lib/actions/quiz";
 import { markSignAsLearned } from "@/lib/actions/progress";
 import type { Sign } from "@/types/sign";
 import type { Category } from "@/types/category";
@@ -468,6 +468,7 @@ export function QuizGame({ categories }: { categories: Category[] }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const totalTimeRef = useRef(0);
 
   // Sensors for drag
   const pointerSensor = useSensor(PointerSensor, {
@@ -551,6 +552,7 @@ export function QuizGame({ categories }: { categories: Category[] }) {
       setTotalRounds(rounds);
       setTotalCorrect(0);
       setTotalQuestions(0);
+      totalTimeRef.current = 0;
       startRound(category, spr, 1);
     },
     [startRound]
@@ -602,6 +604,7 @@ export function QuizGame({ categories }: { categories: Category[] }) {
   // Check answers
   const handleCheck = async () => {
     if (timerRef.current) clearInterval(timerRef.current);
+    totalTimeRef.current += timer;
 
     const checked = matches.map((m) => {
       const sign = roundSigns.find((s) => s.id === m.signId);
@@ -630,10 +633,27 @@ export function QuizGame({ categories }: { categories: Category[] }) {
     }, 1500);
   };
 
+  // Save result and transition to finished
+  const finishQuiz = useCallback(
+    async (correct: number, questions: number) => {
+      const score = questions > 0 ? Math.round((correct / questions) * 100) : 0;
+      setPhase("finished");
+      await saveQuizResult({
+        category: selectedCategory,
+        totalRounds,
+        totalQuestions: questions,
+        totalCorrect: correct,
+        score,
+        timeSpent: totalTimeRef.current,
+      });
+    },
+    [selectedCategory, totalRounds]
+  );
+
   // Next round or finish
   const handleNext = () => {
     if (currentRound >= totalRounds) {
-      setPhase("finished");
+      finishQuiz(totalCorrect, totalQuestions);
     } else {
       startRound(selectedCategory, signsPerRound, currentRound + 1);
     }
@@ -642,9 +662,11 @@ export function QuizGame({ categories }: { categories: Category[] }) {
   // Skip round
   const handleSkip = () => {
     if (timerRef.current) clearInterval(timerRef.current);
-    setTotalQuestions((prev) => prev + roundSigns.length);
+    totalTimeRef.current += timer;
+    const newQuestions = totalQuestions + roundSigns.length;
+    setTotalQuestions(newQuestions);
     if (currentRound >= totalRounds) {
-      setPhase("finished");
+      finishQuiz(totalCorrect, newQuestions);
     } else {
       startRound(selectedCategory, signsPerRound, currentRound + 1);
     }
