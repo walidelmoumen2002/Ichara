@@ -1,4 +1,4 @@
-import { PrismaClient, Difficulty, Role } from "../src/generated/prisma/client.js";
+import { PrismaClient, Difficulty, Role } from "./generated/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 import signsData from "../src/data/signs.json";
