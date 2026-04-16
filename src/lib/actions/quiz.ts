@@ -74,33 +74,58 @@ export interface QuizResultRow {
   completedAt: Date;
 }
 
+function isQuizHistorySchemaError(error: unknown): boolean {
+  const code =
+    error && typeof error === "object" && "code" in error
+      ? String((error as { code?: unknown }).code)
+      : "";
+  const message = error instanceof Error ? error.message : String(error ?? "");
+
+  return (
+    code === "P2021" ||
+    (message.includes("QuizResult") && message.includes("does not exist")) ||
+    (message.includes("ActivityType") && message.includes("quiz_completed"))
+  );
+}
+
 export async function saveQuizResult(data: QuizResultData) {
   const session = await auth();
   if (!session?.user?.id) return { error: "unauthorized" };
 
-  await prisma.$transaction(async (tx) => {
-    await tx.quizResult.create({
-      data: {
-        userId: session.user!.id!,
-        category: data.category,
-        totalRounds: data.totalRounds,
-        totalQuestions: data.totalQuestions,
-        totalCorrect: data.totalCorrect,
-        score: data.score,
-        timeSpent: data.timeSpent,
-      },
-    });
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.quizResult.create({
+        data: {
+          userId: session.user.id,
+          category: data.category,
+          totalRounds: data.totalRounds,
+          totalQuestions: data.totalQuestions,
+          totalCorrect: data.totalCorrect,
+          score: data.score,
+          timeSpent: data.timeSpent,
+        },
+      });
 
-    await tx.activity.create({
-      data: {
-        userId: session.user!.id!,
-        type: "quiz_completed",
-        signWord: `${data.score}%`,
-        signWordAr: `${data.score}٪`,
-        milestone: data.totalCorrect,
-      },
+      await tx.activity.create({
+        data: {
+          userId: session.user.id,
+          type: "quiz_completed",
+          signWord: `${data.score}%`,
+          signWordAr: `${data.score}%`,
+          milestone: data.totalCorrect,
+        },
+      });
     });
-  });
+  } catch (error) {
+    if (isQuizHistorySchemaError(error)) {
+      console.warn(
+        "Quiz history is unavailable until the latest Prisma migration is applied."
+      );
+      return { error: "quiz_history_unavailable" };
+    }
+
+    throw error;
+  }
 
   revalidatePath("/[locale]/dashboard");
   return { success: true };
@@ -110,20 +135,31 @@ export async function fetchQuizHistory(): Promise<QuizResultRow[]> {
   const session = await auth();
   if (!session?.user?.id) return [];
 
-  const rows = await prisma.quizResult.findMany({
-    where: { userId: session.user.id },
-    orderBy: { completedAt: "desc" },
-    take: 10,
-  });
+  try {
+    const rows = await prisma.quizResult.findMany({
+      where: { userId: session.user.id },
+      orderBy: { completedAt: "desc" },
+      take: 10,
+    });
 
-  return rows.map((r) => ({
-    id: r.id,
-    category: r.category,
-    totalRounds: r.totalRounds,
-    totalQuestions: r.totalQuestions,
-    totalCorrect: r.totalCorrect,
-    score: r.score,
-    timeSpent: r.timeSpent,
-    completedAt: r.completedAt,
-  }));
+    return rows.map((r) => ({
+      id: r.id,
+      category: r.category,
+      totalRounds: r.totalRounds,
+      totalQuestions: r.totalQuestions,
+      totalCorrect: r.totalCorrect,
+      score: r.score,
+      timeSpent: r.timeSpent,
+      completedAt: r.completedAt,
+    }));
+  } catch (error) {
+    if (isQuizHistorySchemaError(error)) {
+      console.warn(
+        "Quiz history is unavailable until the latest Prisma migration is applied."
+      );
+      return [];
+    }
+
+    throw error;
+  }
 }

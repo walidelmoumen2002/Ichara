@@ -3,6 +3,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 import signsData from "../src/data/signs.json";
 import categoriesData from "../src/data/categories.json";
+import { importPublicSigns } from "./import-public-signs";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
@@ -50,14 +51,20 @@ async function main() {
     });
   }
 
-  // 3. Seed admin user
+  // 3. Import and optimize signs from the public folder.
+  await importPublicSigns(prisma);
+
+  // 4. Seed admin user
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminPassword = process.env.ADMIN_PASSWORD;
   if (adminEmail && adminPassword) {
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
     await prisma.user.upsert({
       where: { email: adminEmail.toLowerCase() },
-      update: {},
+      update: {
+        hashedPassword,
+        role: Role.admin,
+      },
       create: {
         name: "Admin",
         email: adminEmail.toLowerCase(),
