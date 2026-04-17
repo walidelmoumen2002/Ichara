@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 interface SignCardProps {
   sign: Sign;
   variant?: "home" | "dictionary";
+  onClick?: () => void;
 }
 
 const difficultyStyles = {
@@ -16,7 +17,7 @@ const difficultyStyles = {
   advanced: "bg-purple-100 text-purple-700",
 };
 
-export function SignCard({ sign, variant = "home" }: SignCardProps) {
+export function SignCard({ sign, variant = "home", onClick }: SignCardProps) {
   const t = useTranslations("SignCard");
   const tCat = useTranslations("Categories");
   const tDict = useTranslations("Dictionary");
@@ -29,6 +30,7 @@ export function SignCard({ sign, variant = "home" }: SignCardProps) {
         categoryLabel={tCat(sign.category)}
         difficultyLabel={tDict("difficulty")}
         locale={locale}
+        onClick={onClick}
       />
     );
   }
@@ -64,9 +66,25 @@ export function SignCard({ sign, variant = "home" }: SignCardProps) {
   );
 }
 
-function SignCardDictionary({ sign, categoryLabel, locale, difficultyLabel }: { sign: Sign; categoryLabel: string; locale: string; difficultyLabel: string }) {
+function SignCardDictionary({
+  sign,
+  categoryLabel,
+  locale,
+  difficultyLabel,
+  onClick,
+}: {
+  sign: Sign;
+  categoryLabel: string;
+  locale: string;
+  difficultyLabel: string;
+  onClick?: () => void;
+}) {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl bg-card shadow-sm border border-border transition-all hover:-translate-y-1 hover:shadow-md hover:border-primary/30">
+    <button
+      type="button"
+      onClick={onClick}
+      className="group relative flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card text-start shadow-sm transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+    >
       <div className="relative aspect-video w-full overflow-hidden bg-muted">
         <Image src={sign.thumbnail} alt={`${sign.wordAr} - ${sign.word}`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" unoptimized />
         <div className="absolute top-2 end-2 rounded bg-white/90 px-2 py-0.5 text-xs font-bold text-primary backdrop-blur">
@@ -94,6 +112,6 @@ function SignCardDictionary({ sign, categoryLabel, locale, difficultyLabel }: { 
           </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

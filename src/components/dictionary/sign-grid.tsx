@@ -4,9 +4,10 @@ import type { Sign } from "@/types/sign";
 
 interface SignGridProps {
   signs: Sign[];
+  onSelectSign?: (sign: Sign) => void;
 }
 
-export function SignGrid({ signs }: SignGridProps) {
+export function SignGrid({ signs, onSelectSign }: SignGridProps) {
   const t = useTranslations("Dictionary");
 
   if (signs.length === 0) {
@@ -20,9 +21,14 @@ export function SignGrid({ signs }: SignGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {signs.map((sign) => (
-        <SignCard key={sign.id} sign={sign} variant="dictionary" />
+        <SignCard
+          key={sign.id}
+          sign={sign}
+          variant="dictionary"
+          onClick={() => onSelectSign?.(sign)}
+        />
       ))}
     </div>
   );

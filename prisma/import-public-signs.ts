@@ -160,13 +160,21 @@ export async function importPublicSigns(prisma: PrismaClient) {
       .slice(0, 10);
     const slug = slugify(label) || "sign";
     const outputName = `${slug}-${hash}.gif`;
+    const thumbnailName = `${slug}-${hash}.webp`;
     const outputFile = path.join(optimizedDir, outputName);
+    const thumbnailFile = path.join(optimizedDir, thumbnailName);
     const publicAssetPath = `/signs/optimized/${outputName}`;
+    const publicThumbnailPath = `/signs/optimized/${thumbnailName}`;
 
     const image = sharp(inputFile, { animated: true });
     const metadata = await image.metadata();
     const totalDelay =
       metadata.delay?.reduce((sum, frameDelay) => sum + frameDelay, 0) ?? 0;
+    const pageCount = metadata.pages ?? 1;
+    const thumbnailFrame = Math.min(
+      Math.max(0, pageCount - 1),
+      Math.floor(pageCount / 2)
+    );
 
     const optimizedBuffer = await image
       .resize({
@@ -186,6 +194,24 @@ export async function importPublicSigns(prisma: PrismaClient) {
       .toBuffer();
 
     await sharp(optimizedBuffer, { animated: true }).toFile(outputFile);
+    await sharp(inputFile, {
+      animated: true,
+      page: thumbnailFrame,
+      pages: 1,
+    })
+      .resize({
+        width: 640,
+        height: 360,
+        fit: "contain",
+        background: {
+          r: 249,
+          g: 251,
+          b: 250,
+          alpha: 1,
+        },
+      })
+      .webp({ quality: 84 })
+      .toFile(thumbnailFile);
 
     const difficulty = inferDifficulty(label);
     const categoryId = inferCategory(label);
@@ -200,7 +226,7 @@ export async function importPublicSigns(prisma: PrismaClient) {
         categoryId,
         difficulty,
         difficultyStars: difficultyStarsFor(difficulty),
-        thumbnail: publicAssetPath,
+        thumbnail: publicThumbnailPath,
         videoUrl: publicAssetPath,
         videoDuration: formatDuration(totalDelay),
       },
@@ -212,7 +238,7 @@ export async function importPublicSigns(prisma: PrismaClient) {
         categoryId,
         difficulty,
         difficultyStars: difficultyStarsFor(difficulty),
-        thumbnail: publicAssetPath,
+        thumbnail: publicThumbnailPath,
         videoUrl: publicAssetPath,
         videoDuration: formatDuration(totalDelay),
       },

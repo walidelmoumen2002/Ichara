@@ -7,6 +7,7 @@ import { CategoryFilters } from "@/components/dictionary/category-filters";
 import { SortDropdown } from "@/components/dictionary/sort-dropdown";
 import { SignGrid } from "@/components/dictionary/sign-grid";
 import { DictionaryPagination } from "@/components/dictionary/dictionary-pagination";
+import { SignDetailSheet } from "@/components/dictionary/sign-detail-sheet";
 import type { Sign } from "@/types/sign";
 import type { Category } from "@/types/category";
 
@@ -23,6 +24,7 @@ export function DictionaryClient({ signs, categories }: DictionaryClientProps) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedSign, setSelectedSign] = useState<Sign | null>(null);
 
   const filtered = useMemo(() => {
     let result = [...signs];
@@ -89,12 +91,22 @@ export function DictionaryClient({ signs, categories }: DictionaryClientProps) {
         <SortDropdown value={sortBy} onChange={setSortBy} />
       </div>
 
-      <SignGrid signs={paginatedSigns} />
+      <SignGrid signs={paginatedSigns} onSelectSign={setSelectedSign} />
 
       <DictionaryPagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+      />
+
+      <SignDetailSheet
+        sign={selectedSign}
+        categories={categories}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedSign(null);
+          }
+        }}
       />
     </div>
   );
