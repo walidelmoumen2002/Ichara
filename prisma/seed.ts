@@ -1,6 +1,8 @@
 import { PrismaClient, Difficulty, Role } from "./generated/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
+import { existsSync, readdirSync } from "node:fs";
+import path from "node:path";
 import signsData from "../src/data/signs.json";
 import categoriesData from "../src/data/categories.json";
 import { importPublicSigns } from "./import-public-signs";
@@ -9,6 +11,21 @@ const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
 });
 const prisma = new PrismaClient({ adapter });
+
+function isNonBlockingPublicImportError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error ?? "");
+
+  return message.includes("Permission denied") || message.includes("EACCES");
+}
+
+function shouldSkipPublicImport(): boolean {
+  if (process.env.NODE_ENV !== "production") {
+    return false;
+  }
+
+  const optimizedDir = path.join(process.cwd(), "public", "signs", "optimized");
+  return existsSync(optimizedDir) && readdirSync(optimizedDir).length > 0;
+}
 
 async function main() {
   // 1. Seed categories (skip "all" pseudo-category)
@@ -52,7 +69,21 @@ async function main() {
   }
 
   // 3. Import and optimize signs from the public folder.
-  await importPublicSigns(prisma);
+  if (shouldSkipPublicImport()) {
+    console.log("Skipping public sign import because optimized assets already exist.");
+  } else {
+    try {
+      await importPublicSigns(prisma);
+    } catch (error) {
+      if (!isNonBlockingPublicImportError(error)) {
+        throw error;
+      }
+
+      console.warn(
+        "Skipping public sign import because the optimized asset directory is not writable in this environment."
+      );
+    }
+  }
 
   // 4. Seed admin user
   const adminEmail = process.env.ADMIN_EMAIL;

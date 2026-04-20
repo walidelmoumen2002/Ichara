@@ -43,6 +43,7 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/docker-entrypoint.sh ./
 RUN dos2unix docker-entrypoint.sh && \
     chmod +x docker-entrypoint.sh && \
+    chown -R nextjs:nodejs /app/public /app/.next /app/prisma /app/src && \
     chown nextjs:nodejs docker-entrypoint.sh
 
 USER nextjs
