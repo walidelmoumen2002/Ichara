@@ -60,13 +60,14 @@
     "copyright": "© 2024 Ichara. All rights reserved."
   },
   "Hero": {
-    "badge": "Interactive Learning Platform",
-    "titlePart1": "Master",
-    "titleHighlight": "Sign Language",
-    "titlePart2": "Moroccan Today",
-    "description": "Interactive lessons focused on clarity, warmth, and communication. Join our growing community of learners bridging communication gaps.",
+    "badge": "Moroccan Sign Language",
+    "titlePart1": "Learn Sign Language",
+    "titleHighlight": "Visually.",
+    "titlePart2": "Naturally.",
+    "description": "Ichara makes Moroccan Sign Language (MSL) accessible to everyone — deaf learners, families, and educators — through rich visual lessons, an animated dictionary, and interactive quizzes.",
     "ctaPrimary": "Start Learning",
-    "ctaSecondary": "Browse Dictionary"
+    "ctaSecondary": "Browse Dictionary",
+    "heroPill": "200+ signs in MSL dictionary"
   },
   "Stats": {
     "signsAvailable": "Signs Available",
@@ -75,12 +76,16 @@
   },
   "HowItWorks": {
     "title": "How It Works",
-    "step1Title": "1. Watch & Learn",
-    "step1Description": "High-quality videos with clear hand movements and detailed facial expressions.",
-    "step2Title": "2. Practice Regularly",
-    "step2Description": "Interactive quizzes and mirror mode to improve your technique.",
-    "step3Title": "3. Master the Language",
-    "step3Description": "Track your progress and earn certificates as you advance through levels."
+    "eyebrow": "How it works",
+    "titleTop": "Your journey to fluency",
+    "titleBottom": "in three steps",
+    "stepLabel": "Step {n}",
+    "step1Title": "Browse the Dictionary",
+    "step1Description": "Explore 200+ Moroccan Sign Language signs organized by category. Each sign includes a visual hand demonstration and multi-language labels.",
+    "step2Title": "Follow Structured Lessons",
+    "step2Description": "Progress through topic-based lessons at your own pace — from basic greetings to everyday conversations, numbers, emotions, and more.",
+    "step3Title": "Practice & Master",
+    "step3Description": "Reinforce your learning with interactive visual quizzes. Instant visual feedback celebrates every correct answer, keeping you motivated."
   },
   "FeaturedSigns": {
     "title": "Featured Signs",
@@ -89,8 +94,11 @@
   },
   "CTA": {
     "title": "Ready to Bridge the Gap?",
-    "description": "Join thousands of students, families, and friends learning to communicate with clarity and warmth.",
-    "button": "Start Learning for Free"
+    "titlePart1": "Ready to start communicating",
+    "titleHighlight": "through sign language?",
+    "description": "Join 1,500+ learners already using Ichara to bridge communication gaps and celebrate Moroccan Deaf culture.",
+    "button": "Start for Free",
+    "secondaryButton": "Explore Dictionary"
   },
   "Auth": {
     "loginTitle": "Welcome Back",

@@ -197,3 +197,53 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Redesign keyframes */
+@keyframes ichara-fade-in-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ichara-wave {
+  0%, 100% { transform: rotate(-9deg); }
+  50%      { transform: rotate(9deg); }
+}
+@keyframes ichara-finger-wave {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+@keyframes ichara-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@keyframes ichara-spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes ichara-pulse-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.8; transform: scale(1.08); }
+}
+
+.ichara-fade-in-up { animation: ichara-fade-in-up 0.6s ease both; }
+.ichara-hand-wave  { animation: ichara-wave 2.6s ease-in-out infinite; transform-origin: center 78%; }
+.ichara-finger-1   { animation: ichara-finger-wave 1.5s ease-in-out infinite 0s;    transform-origin: center bottom; }
+.ichara-finger-2   { animation: ichara-finger-wave 1.5s ease-in-out infinite 0.18s; transform-origin: center bottom; }
+.ichara-finger-3   { animation: ichara-finger-wave 1.5s ease-in-out infinite 0.36s; transform-origin: center bottom; }
+.ichara-finger-4   { animation: ichara-finger-wave 1.5s ease-in-out infinite 0.54s; transform-origin: center bottom; }
+.ichara-float      { animation: ichara-float 3.2s ease-in-out infinite; }
+.ichara-pulse-glow { animation: ichara-pulse-glow 3s ease-in-out infinite; }
+.ichara-orbit      { animation: ichara-spin-slow 18s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ichara-hand-wave,
+  .ichara-finger-1,
+  .ichara-finger-2,
+  .ichara-finger-3,
+  .ichara-finger-4,
+  .ichara-float,
+  .ichara-pulse-glow,
+  .ichara-orbit,
+  .ichara-fade-in-up {
+    animation: none;
+  }
+}

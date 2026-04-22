@@ -1,80 +1,140 @@
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { MaterialIcon } from "@/components/shared/material-icon";
-import { StatCard } from "@/components/shared/stat-card";
+import { AnimatedHand } from "@/components/shared/animated-hand";
+
+const FLOATERS = [
+  { word: "مرحبا", emoji: "👋", style: "top-[6%] start-[2%]", delay: "0s" },
+  { word: "شكراً", emoji: "🤲", style: "top-[2%] end-[4%]", delay: "0.4s" },
+  { word: "أحبك", emoji: "🤟", style: "bottom-[18%] start-[-2%]", delay: "0.8s" },
+  { word: "نعم", emoji: "👍", style: "bottom-[14%] end-[0%]", delay: "0.2s" },
+];
 
 export function HeroSection() {
   const t = useTranslations("Hero");
   const tStats = useTranslations("Stats");
 
-  const landingStats = [
-    { value: "+200", label: tStats("signsAvailable"), icon: "sign_language" },
-    { value: "+1,500", label: tStats("activeLearners"), icon: "groups" },
+  const stats = [
+    { value: "200+", label: tStats("signsAvailable"), icon: "sign_language" },
+    { value: "1,500+", label: tStats("activeLearners"), icon: "groups" },
     { value: "4", label: tStats("supportedLanguages"), icon: "translate" },
   ];
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-slate-900 via-[#1a3c2f] to-[#1e4a36] py-20 lg:py-28">
-      <div className="absolute inset-0 opacity-10 bg-zellige mix-blend-overlay pointer-events-none" />
-      <div className="absolute top-0 start-0 -ms-20 -mt-20 h-[500px] w-[500px] rounded-full bg-primary blur-3xl opacity-20" />
-      <div className="absolute bottom-0 end-0 -me-20 -mb-20 h-[400px] w-[400px] rounded-full bg-accent blur-3xl opacity-10" />
+    <section className="relative w-full overflow-hidden bg-linear-to-br from-[#0a1a10] via-[#1a3c2f] to-[#0f2d1f] py-20 lg:py-28">
+      <div className="absolute inset-0 opacity-15 bg-zellige pointer-events-none" />
+      <div className="absolute -top-24 -start-24 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(45,108,80,0.35)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute -bottom-20 -end-20 h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.2)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center text-center lg:text-start lg:flex-row lg:items-start lg:justify-between gap-12">
-          <div className="flex flex-col gap-6 max-w-2xl lg:pt-8">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-accent border border-white/10 backdrop-blur-sm w-fit mx-auto lg:mx-0">
-              <MaterialIcon name="auto_awesome" className="text-sm" />
-              <span>{t("badge")}</span>
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div className="ichara-fade-in-up">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1.5">
+              <MaterialIcon name="auto_awesome" className="text-sm text-accent" />
+              <span className="text-[12px] font-bold uppercase tracking-widest text-accent">
+                {t("badge")}
+              </span>
             </div>
 
-            <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.15]">
+            <h1 className="mb-5 text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
               {t("titlePart1")}{" "}
-              <span className="text-accent">{t("titleHighlight")}</span>
+              <span className="bg-linear-to-r from-amber-500 to-amber-300 bg-clip-text text-transparent">
+                {t("titleHighlight")}
+              </span>
               <br />
-              {t("titlePart2")}
+              <span className="text-white/80">{t("titlePart2")}</span>
             </h1>
 
-            <p className="max-w-lg text-lg text-slate-300 mx-auto lg:mx-0 leading-relaxed">
+            <p className="mb-9 max-w-lg text-base leading-relaxed text-white/65 sm:text-lg">
               {t("description")}
             </p>
 
-            <div className="mt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-wrap gap-3.5">
               <Button
                 size="lg"
-                className="group bg-accent hover:bg-[oklch(0.72_0.17_75)] text-slate-900 font-bold shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:scale-[1.02] transition-all rounded-xl px-8"
+                asChild
+                className="group rounded-xl bg-linear-to-br from-amber-500 to-amber-600 px-8 text-[15px] font-extrabold text-slate-900 shadow-[0_4px_16px_rgba(245,158,11,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(245,158,11,0.55)]"
               >
-                <span>{t("ctaPrimary")}</span>
-                <MaterialIcon
-                  name="arrow_forward"
-                  className="text-lg transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
-                />
+                <Link href="/lessons">
+                  <MaterialIcon name="play_circle" className="text-xl" />
+                  {t("ctaPrimary")}
+                </Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/20 bg-white/5 text-white backdrop-blur-sm hover:bg-white/10 hover:border-white/40 font-bold rounded-xl px-8"
+                asChild
+                className="rounded-xl border-2 border-white/25 bg-white/5 px-8 text-[15px] font-bold text-white backdrop-blur-sm hover:border-white/50 hover:bg-white/10 hover:text-white"
               >
-                <span>{t("ctaSecondary")}</span>
-                <MaterialIcon name="menu_book" className="text-sm" />
+                <Link href="/dictionary">
+                  <MaterialIcon name="menu_book" className="text-lg" />
+                  {t("ctaSecondary")}
+                </Link>
               </Button>
+            </div>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              {stats.map((s) => (
+                <div
+                  key={s.label}
+                  className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 backdrop-blur-sm"
+                >
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/40">
+                    <MaterialIcon name={s.icon} className="text-base text-accent" />
+                  </div>
+                  <div>
+                    <div className="text-xl font-black leading-none text-white">
+                      {s.value}
+                    </div>
+                    <div className="mt-1 text-[11px] text-white/50">{s.label}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 w-full max-w-sm lg:max-w-xs relative z-10 lg:mt-12">
-            {landingStats.map((stat, i) => (
+          <div
+            className="relative flex min-h-[380px] items-center justify-center ichara-fade-in-up"
+            style={{ animationDelay: "0.2s" }}
+          >
+            <div className="absolute h-80 w-80 rounded-full border border-dashed border-accent/20 ichara-orbit" />
+            <div className="absolute h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(45,108,80,0.5)_0%,transparent_75%)]" />
+
+            <div className="relative z-10 ichara-float">
+              <AnimatedHand size={240} />
+            </div>
+
+            {FLOATERS.map((f) => (
               <div
-                key={stat.label}
-                style={{ transitionDelay: `${i * 75}ms` }}
+                key={f.word}
+                className={`absolute z-20 flex items-center gap-1.5 whitespace-nowrap rounded-xl border border-white/15 bg-white/10 px-3.5 py-2 backdrop-blur-md ichara-float ${f.style}`}
+                style={{ animationDelay: f.delay }}
               >
-                <StatCard
-                  value={stat.value}
-                  label={stat.label}
-                  icon={stat.icon}
-                />
+                <span className="text-lg">{f.emoji}</span>
+                <span className="text-sm font-bold text-white">{f.word}</span>
               </div>
             ))}
+
+            <div className="absolute bottom-0 start-1/2 z-20 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-linear-to-br from-amber-500 to-amber-600 px-5 py-2 shadow-[0_4px_20px_rgba(245,158,11,0.5)] rtl:translate-x-1/2">
+              <MaterialIcon name="verified" className="text-base text-[#0a1a10]" />
+              <span className="text-[13px] font-extrabold text-[#0a1a10]">
+                {t("heroPill")}
+              </span>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div className="absolute -bottom-px start-0 end-0">
+        <svg
+          viewBox="0 0 1440 60"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="block h-[60px] w-full fill-background"
+        >
+          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" />
+        </svg>
       </div>
     </section>
   );
